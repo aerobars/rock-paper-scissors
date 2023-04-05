@@ -52,11 +52,9 @@ function game() {
 }
 const choices = document.querySelectorAll('button');
 choices.forEach((choice) => {
-  console.log(choice.id);
   choice.addEventListener('click', () => {
-    alert(choice.id);
-  //playerSelection = choice.textContent
-  //console.log(playRound(playerSelection));  
+  playerSelection = choice.textContent
+  console.log(playRound(playerSelection));  
   })
 })
 
