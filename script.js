@@ -1,9 +1,16 @@
 //Set global variables
 let playerSelection = ""
+let score = [0, 0, 0, 0]; //Player score, computer score, tie score, round number
+const roundNumber = document.querySelector('#round-score');
+const playerScore = document.querySelector('#player-score');
+const compScore = document.querySelector('#comp-score');
+const tieScore = document.querySelector('#tie-score');
+const report = document.querySelector('.round-report');
+const divs = [playerScore, compScore, tieScore];
 
 //Selections the computers choice at random between the three options
 function getComputerChoice() {
-	let options = ['rock', 'paper', 'scissors'];
+	let options = ['Rock', 'Paper', 'Scissors'];
 	let computerChoice = options[Math.floor(Math.random()*3)];
   return computerChoice;
 }
@@ -12,52 +19,60 @@ function getComputerChoice() {
 function playRound(playerSelection) {
 	let result = [];
   let computerSelection = getComputerChoice();
-  playerSelection = playerSelection.toLowerCase();
   if (playerSelection === computerSelection) {
-    return result = [2, `It\'s a tie! You both chose ${playerSelection}`]
+    return result = [2, `It\'s a tie! You both chose ${playerSelection}.`]
   }
-  else if (playerSelection === "paper") {
-  	if (computerSelection === 'scissors') {
-    	return result = [1, "You lose! Scissors beats Paper"]
+  else if (playerSelection === "Paper") {
+  	if (computerSelection === 'Scissors') {
+    	return result = [1, "You lose! Scissors beats Paper."]
     }
-    else if (computerSelection === 'rock'){
+    else if (computerSelection === 'Rock') {
     	return result = [0, "You win! Paper beats Rock."]
     }
   }
-  else if (playerSelection === "scissors") {
-  	if (computerSelection === 'paper'){
+  else if (playerSelection === "Scissors") {
+  	if (computerSelection === 'Paper'){
     	return result = [0, "You win! Scissors beats Paper."]
     }
-    else if (computerSelection === 'rock') {
+    else if (computerSelection === 'Rock') {
     	return result = [1, "You lose! Rock beats Scissors."]
     } 
   }
-  else if (playerSelection === "rock") {
-  	if (computerSelection === 'paper') {
+  else if (playerSelection === "Rock") {
+  	if (computerSelection === 'Paper') {
     	return result = [1, "You lose! Paper beats Rock."]
     }
-    else if (computerSelection === 'scissors') {
+    else if (computerSelection === 'Scissors') {
     	return result = [0, "You win! Rock beats Scissors."]
     }
   }
 }
-//Runs the playRound function 5 times and gives the results and updated score after each round
-function game() {
-	let score = [0, 0, 0];
-  let Round
-    
-    Round = playRound(playerSelection, computerSelection)
-    score[Round[0]]++;
-    console.log(`Game ${i}: ${Round[1]} The score is: ${score[0]} to ${score[1]} with ${score[2]} ties.`);
-}
+
 const choices = document.querySelectorAll('button');
 choices.forEach((choice) => {
   choice.addEventListener('click', () => {
   playerSelection = choice.textContent
-  console.log(playRound(playerSelection));  
+  scoreUpdate();
   })
 })
 
+//Updates the Score and Round number, as well as gives a report of the last round
+function scoreUpdate() {
+  let round = playRound(playerSelection);
+  roundNumber.textContent = ++score[3];
+  divs[round[0]].textContent = ++score[round[0]];
+  if (score[0] == 5 || score[1] == 5) {
+    report.textContent = `Result: ${winnerCheck()}`;
+  } else {
+    report.textContent = `Result: ${round[1]}`;
+  }
+}
 
+function winnerCheck() {
+  if (score[0] == 5) {
+    return "Congratulations! You've beaten the computer and saved humanity!";
+  } else {
+    return "The computer wins. Try harder next time.";
+  }
+}
 
-//game();
